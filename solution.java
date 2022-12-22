@@ -1,28 +1,42 @@
-//ç»™ä½ ä¸€ä¸ª éžç©º æ•´æ•°æ•°ç»„ nums ï¼Œé™¤äº†æŸä¸ªå…ƒç´ åªå‡ºçŽ°ä¸€æ¬¡ä»¥å¤–ï¼Œå…¶ä½™æ¯ä¸ªå…ƒç´ å‡å‡ºçŽ°ä¸¤æ¬¡ã€‚æ‰¾å‡ºé‚£ä¸ªåªå‡ºçŽ°äº†ä¸€æ¬¡çš„å…ƒç´ ã€‚
-//
-//ä½ å¿…é¡»è®¾è®¡å¹¶å®žçŽ°çº¿æ€§æ—¶é—´å¤æ‚åº¦çš„ç®—æ³•æ¥è§£å†³æ­¤é—®é¢˜ï¼Œä¸”è¯¥ç®—æ³•åªä½¿ç”¨å¸¸é‡é¢å¤–ç©ºé—´ã€‚
-//1 <= nums.length <= 3 * 104
-//-3 * 104 <= nums[i] <= 3 * 104
-//é™¤äº†æŸä¸ªå…ƒç´ åªå‡ºçŽ°ä¸€æ¬¡ä»¥å¤–ï¼Œå…¶ä½™æ¯ä¸ªå…ƒç´ å‡å‡ºçŽ°ä¸¤æ¬¡ã€‚
+/*
+88. ºÏ²¢Á½¸öÓÐÐòÊý×é
+¸øÄãÁ½¸ö°´ ·ÇµÝ¼õË³Ðò ÅÅÁÐµÄÕûÊýÊý×é nums1 ºÍ nums2£¬ÁíÓÐÁ½¸öÕûÊý m ºÍ n £¬·Ö±ð±íÊ¾ nums1 ºÍ nums2 ÖÐµÄÔªËØÊýÄ¿¡£
+
+ÇëÄã ºÏ²¢ nums2 µ½ nums1 ÖÐ£¬Ê¹ºÏ²¢ºóµÄÊý×éÍ¬Ñù°´ ·ÇµÝ¼õË³Ðò ÅÅÁÐ¡£
+
+×¢Òâ£º×îÖÕ£¬ºÏ²¢ºóÊý×é²»Ó¦ÓÉº¯Êý·µ»Ø£¬¶øÊÇ´æ´¢ÔÚÊý×é nums1 ÖÐ¡£ÎªÁËÓ¦¶ÔÕâÖÖÇé¿ö£¬nums1 µÄ³õÊ¼³¤¶ÈÎª m + n£¬ÆäÖÐÇ° m ¸öÔªËØ±íÊ¾Ó¦ºÏ²¢µÄÔªËØ£¬ºó n ¸öÔªËØÎª 0 £¬Ó¦ºöÂÔ¡£nums2 µÄ³¤¶ÈÎª n ¡£
+
+ ·¨Ò»£ºÖ±½ÓÁ½¸öÊý×éÕûºÏ£¬Ö®ºóÖØÅÅÁÐ
+ ·¨¶þ£ºË«Ö¸ÕëÄ£Äâ¶ÓÁÐ
+
+ */
+
+
 
 
 class Solution {
-    public int singleNumber(int[] nums) {
-        Arrays.sort(nums);
-        int number = nums.length;
-        int end = nums[number - 1];
-        int result = nums[0];
-        for(int i = 0; i < nums.length - 2 ; i++){
-            if(nums[i] != nums[i + 1] && nums[i + 1] != nums[i + 2] ){
-                result = nums[i + 1];
+    public void merge(int[] nums1, int m, int[] nums2, int n) {
+        int newnumber = m + n;
+        int[] newhight = new int[newnumber];
+        int p1 = 0;
+        int p2 = 0;
+        int cur = 0;
+        while(p1 < m||p2 < n){
+            if(p1 == m ){
+                cur = nums2[p2++];
+            }else if(p2 == n){
+                cur = nums1[p1++];
             }
-            else if(nums[0] != nums[1]){
-                result = nums[0];
+            else if(nums1[p1] < nums2[p2]){
+                cur = nums1[p1++];
             }
-            else if(nums[number - 2] != end){
-                result = end;
+            else if(nums1[p1] >= nums2[p2]){
+                cur = nums2[p2++];
             }
+            newhight[p1+p2-1] = cur;
         }
-        return result;
+        for(int i =0; i<m+n;i++){
+            nums1[i] = newhight[i];
+        }
     }
 }
